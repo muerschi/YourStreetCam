@@ -1,0 +1,16 @@
+CREATE TABLE users
+(
+  id serial NOT NULL,
+  name character varying(1024),
+  password character varying(1024),
+  role character varying(1024),
+  CONSTRAINT user_pk PRIMARY KEY (id)
+)
+
+CREATE TABLE cameras
+(
+  id serial NOT NULL,
+  name character varying(1024),
+  path character varying(1024),
+  CONSTRAINT camera_pk PRIMARY KEY (id)
+)
