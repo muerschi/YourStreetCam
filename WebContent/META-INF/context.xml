@@ -1,0 +1,12 @@
+<Context>
+	<Resource name="jdbc/libraryDB"
+			  auth="Container"
+			  type="javax.sql.DataSource"
+			  driverClassName="org.postgresql.Driver"
+		      url="jdbc:postgresql://localhost/usersDatabase"
+    		  username="postgres"
+    		  password="postgres"
+    		  maxActive="250" maxIdle="5"
+	/>
+	
+</Context>

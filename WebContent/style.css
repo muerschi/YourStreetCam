@@ -1,0 +1,18 @@
+body {
+    background-image: url(images/beach.jpg);
+}
+ 
+.boxgroesse {
+  width: 250px;
+  height: 175px;
+  font-size: 30pt;
+  color: white;
+  opacity: 0.5;
+}
+ 
+#box1 {
+    background-color: red;
+    position: absolute;
+    top: 90px;
+    left: 100px;
+}
