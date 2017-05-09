@@ -1,5 +1,8 @@
 package model;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
+import model.PasswordHash;
 
 public class User {	
 
@@ -27,8 +30,10 @@ public class User {
 		return password;
 	}
 	
-	public void setPassword(String pass) {
-		this.password = pass;
+	public void setPassword(String pass){
+			
+		this.password=pass;
+
 	}
 	public String getRole() {
 		return this.role;
@@ -38,8 +43,9 @@ public class User {
 		this.role = role;
 	}
 	
-	public boolean passwordIsValid(String pass){
-		if(pass.equals(password)){
+	public boolean passwordIsValid(String pass) throws NoSuchAlgorithmException, InvalidKeySpecException{
+		
+		if(PasswordHash.validatePassword(pass, password)){
 			return true;
 		}else{
 			return false;

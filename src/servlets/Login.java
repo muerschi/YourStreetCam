@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DaoFactory;
 import dao.UserDao;
+import model.PasswordHash;
 import model.User;
 
 
@@ -20,7 +23,7 @@ public class Login extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	
-	final UserDao bookDao = DaoFactory.getInstance().getUserDao();
+	final UserDao userDao = DaoFactory.getInstance().getUserDao();
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 
@@ -35,7 +38,7 @@ public class Login extends HttpServlet{
 		String password = request.getParameter("password");
 	
 		
-		User user = bookDao.get(username);
+		User user = userDao.get(username);
 		
 		
 		try {		

@@ -4,6 +4,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,7 +18,7 @@ import dao.DaoFactory;
 import exception.UserNotDeletedException;
 import exception.UserNotFoundException;
 import exception.UserNotSavedException;
-
+import model.PasswordHash;
 import model.User;
 
 public class UserEdit extends HttpServlet {	
@@ -79,7 +81,21 @@ public class UserEdit extends HttpServlet {
 		User user = new User();		
 		user.setId(id);
 		user.setName(name);
-		user.setPassword(password);		
+		String hash;
+		
+		try {
+			hash = PasswordHash.createHash(password);
+			user.setPassword(hash);	
+		} catch (NoSuchAlgorithmException e1) {
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+			dispatcher.forward(request, response);
+			e1.printStackTrace();
+		} catch (InvalidKeySpecException e1) {
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+			dispatcher.forward(request, response);
+			e1.printStackTrace();
+		}
+			
 		user.setRole(role);
 		
 		try {		
