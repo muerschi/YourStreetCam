@@ -29,12 +29,12 @@ public class CameraDaoImpl implements CameraDao {
 		try {
 			connection = jndi.getConnection("jdbc/libraryDB");			
 			if (camera.getId() == null) {
-				PreparedStatement pstmt = connection.prepareStatement("insert into cameras (name, path) values (?,?)");
+				PreparedStatement pstmt = connection.prepareStatement("insert into cameras (camera, pictures) values (?,?)");
 				pstmt.setString(1, camera.getName());
 				pstmt.setString(2, camera.getPath());
 				pstmt.executeUpdate();
 			} else {
-				PreparedStatement pstmt = connection.prepareStatement("update cameras set name = ?, path = ? where id = ?");
+				PreparedStatement pstmt = connection.prepareStatement("update cameras set camera = ?, pictures = ? where camera_id = ?");
 				pstmt.setString(1, camera.getName());
 				pstmt.setString(2, camera.getPath());
 				pstmt.setLong(3, camera.getId());
@@ -55,7 +55,7 @@ public class CameraDaoImpl implements CameraDao {
 		Connection connection = null;		
 		try {
 			connection = jndi.getConnection("jdbc/libraryDB");		
-			PreparedStatement pstmt = connection.prepareStatement("delete from cameras where id = ?");
+			PreparedStatement pstmt = connection.prepareStatement("delete from cameras where camera_id = ?");
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();			
 		} catch (Exception e) {
@@ -74,14 +74,14 @@ public class CameraDaoImpl implements CameraDao {
 		Connection connection = null;		
 		try {
 			connection = jndi.getConnection("jdbc/libraryDB");			
-			PreparedStatement pstmt = connection.prepareStatement("select id, name, path from cameras where id = ?");
+			PreparedStatement pstmt = connection.prepareStatement("select camera_id, camera, pictures from cameras where camera_id = ?");
 			pstmt.setLong(1, id);
 			ResultSet rs = pstmt.executeQuery();							
 			if (rs.next()) {
 				Camera camera = new Camera();
-				camera.setId(rs.getLong("id"));
-				camera.setName(rs.getString("name"));
-				camera.setPath(rs.getString("path"));
+				camera.setId(rs.getLong("camera_id"));
+				camera.setName(rs.getString("camera"));
+				camera.setPath(rs.getString("pictures"));
 				return camera;
 			} else {
 				throw new UserNotFoundException(id);
@@ -101,14 +101,14 @@ public class CameraDaoImpl implements CameraDao {
 		try {
 			connection = jndi.getConnection("jdbc/libraryDB");			
 			
-				PreparedStatement pstmt = connection.prepareStatement("select id, name, path from cameras");				
+				PreparedStatement pstmt = connection.prepareStatement("select camera_id, camera, pictures from cameras");				
 				ResultSet rs = pstmt.executeQuery();
 								
 				while (rs.next()) {
 					Camera camera = new Camera();
-					camera.setId(rs.getLong("id"));
-					camera.setName(rs.getString("name"));
-					camera.setPath(rs.getString("path"));
+					camera.setId(rs.getLong("camera_id"));
+					camera.setName(rs.getString("camera"));
+					camera.setPath(rs.getString("pictures"));
 					cameraList.add(camera);
 				}			
 			

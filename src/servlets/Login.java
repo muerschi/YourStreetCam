@@ -26,7 +26,27 @@ public class Login extends HttpServlet{
 	final UserDao userDao = DaoFactory.getInstance().getUserDao();
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-
+		User user = new User();		
+		
+		user.setName("nina");
+		String hash;
+		
+		try {
+			hash = PasswordHash.createHash("ninapw");
+			user.setPassword(hash);	
+		} catch (NoSuchAlgorithmException e1) {
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+			dispatcher.forward(request, response);
+			e1.printStackTrace();
+		} catch (InvalidKeySpecException e1) {
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+			dispatcher.forward(request, response);
+			e1.printStackTrace();
+		}
+			
+		user.setRole("admin");
+		
+			userDao.save(user);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/login.jsp");
 		dispatcher.forward(request, response);		
 	}

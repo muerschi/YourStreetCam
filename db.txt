@@ -1,16 +1,41 @@
 CREATE TABLE users
 (
-  id serial NOT NULL,
-  name character varying(1024),
+  user_id serial NOT NULL,
+  username character varying(1024),
   password character varying(1024),
   role character varying(1024),
-  CONSTRAINT user_pk PRIMARY KEY (id)
-)
+  CONSTRAINT user_pk PRIMARY KEY (user_id)
+);
 
 CREATE TABLE cameras
 (
-  id serial NOT NULL,
-  name character varying(1024),
-  path character varying(1024),
-  CONSTRAINT camera_pk PRIMARY KEY (id)
-)
+  camera_id serial NOT NULL,
+  camera character varying(1024),
+  pictures character varying(1024),
+  CONSTRAINT camera_pk PRIMARY KEY (camera_id)
+);
+
+CREATE TABLE pictures (
+    picture_id serial NOT NULL,
+    date character varying(1024) NOT NULL,
+    camera_id serial,
+    PRIMARY KEY (picture_id),
+    CONSTRAINT FK_picture_user FOREIGN KEY (camera_id)
+    REFERENCES cameras(camera_id)
+);
+
+CREATE TABLE user_camera
+(
+    user_id serial NOT NULL,
+    camera_id serial NOT NULL,
+    amount numeric NOT NULL DEFAULT 1,
+    CONSTRAINT user_camera_pkey PRIMARY KEY (user_id, camera_id),
+    CONSTRAINT user_camera_camera_id_fkey FOREIGN KEY (camera_id)
+        REFERENCES public.cameras (camera_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT user_camera_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);

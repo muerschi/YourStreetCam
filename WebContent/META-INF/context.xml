@@ -3,9 +3,9 @@
 			  auth="Container"
 			  type="javax.sql.DataSource"
 			  driverClassName="org.postgresql.Driver"
-		      url="jdbc:postgresql://localhost/usersDatabase"
-    		  username="postgres"
-    		  password="postgres"
+		      url="jdbc:postgresql://141.19.96.94/ss17-gruppe4_DB"
+    		  username="ss17-gruppe4"
+    		  password="Xjsgqcz4"
     		  maxActive="250" maxIdle="5"
 	/>
 	
