@@ -17,7 +17,7 @@ CREATE TABLE cameras
 
 CREATE TABLE pictures (
     picture_id serial NOT NULL,
-    date character varying(1024) NOT NULL,
+    date timestamp with time zone NOT NULL,
     camera_id serial,
     PRIMARY KEY (picture_id),
     CONSTRAINT FK_picture_user FOREIGN KEY (camera_id)

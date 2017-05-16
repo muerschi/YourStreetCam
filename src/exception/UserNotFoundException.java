@@ -3,10 +3,10 @@ package exception;
 public class UserNotFoundException extends RuntimeException {
 	
 	public UserNotFoundException(Long id) {
-		super("Buch mit der Id " + id + " wurde nicht gefunden!");
+		super("Nutzer mit der Id " + id + " wurde nicht gefunden!");
 	}
 	
 	public UserNotFoundException() {
-		super("Bücher können nicht aufgelistet werden!");
+		super("Nutzer können nicht aufgelistet werden!");
 	}
 }

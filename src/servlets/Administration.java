@@ -19,7 +19,7 @@ public class Administration extends HttpServlet{
 	final UserDao userDao = DaoFactory.getInstance().getUserDao();
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
-
+		
 		List<User> collection = userDao.list();
 		request.setAttribute("users", collection);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/administration.jsp");

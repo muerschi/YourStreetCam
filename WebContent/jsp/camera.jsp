@@ -32,6 +32,8 @@
   		</tbody>
   	</table>
   	<br>
-  	
+  	<form name="camera" action="cameraupdate" method="post">
+		<input type="submit" name="btnCameraListUpdate" value="CameraListUpdate"></td>
+	</form>
 </body>
 </html>

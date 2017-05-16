@@ -3,10 +3,10 @@ package exception;
 public class CameraNotFoundException extends RuntimeException {
 	
 	public CameraNotFoundException(Long id) {
-		super("Buch mit der Id " + id + " wurde nicht gefunden!");
+		super("Kamera mit der Id " + id + " wurde nicht gefunden!");
 	}
 	
 	public CameraNotFoundException() {
-		super("Bücher können nicht aufgelistet werden!");
+		super("Kameras können nicht aufgelistet werden!");
 	}
 }
