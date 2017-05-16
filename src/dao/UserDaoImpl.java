@@ -11,6 +11,7 @@ import java.util.ListIterator;
 import jndi.JndiFactory;
 
 import model.User;
+import model.Camera;
 import exception.UserNotDeletedException;
 import exception.UserNotSavedException;
 import exception.UserNotFoundException;
@@ -151,6 +152,27 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		
+	}
+	
+	public void setUserCameraConnection(User user, Camera camera){
+		
+		if (user == null || camera == null)
+			throw new IllegalArgumentException("user can not be null");
+		
+		Connection connection = null;		
+		try {
+			connection = jndi.getConnection("jdbc/libraryDB");			
+
+			PreparedStatement pstmt = connection.prepareStatement("insert into user_camera (user_id, camera_id) values (?, ?)");
+			pstmt.setLong(1, user.getId());
+			pstmt.setLong(2, camera.getId());
+			pstmt.executeUpdate();
+					
+		} catch (Exception e) {
+			throw new UserNotSavedException();
+		} finally {
+			closeConnection(connection);
+		}
 	}
 	
 	private void closeConnection(Connection connection) {
