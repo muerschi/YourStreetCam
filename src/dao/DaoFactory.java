@@ -1,6 +1,7 @@
 package dao;
 
 import dao.UserDaoImpl;
+import dao.ImageDao;
 
 public class DaoFactory {
 	
@@ -19,5 +20,9 @@ public class DaoFactory {
 	
 	public CameraDao getCameraDao(){
 		return new CameraDaoImpl();
+	}
+	
+	public ImageDao getImageDao(){
+		return new ImageDaoImpl();
 	}
 }
