@@ -6,13 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import dao.CameraDao;
+import exception.CameraUserInsertException;
+import exception.CameraUserConnectionNotDeleted;
+import exception.CameraUserConnectionNotFoundException;
 import exception.UserNotDeletedException;
 import exception.UserNotFoundException;
 import exception.UserNotSavedException;
 import jndi.JndiFactory;
 import model.Camera;
+import model.User;
 
 
 public class CameraDaoImpl implements CameraDao {
@@ -120,6 +125,75 @@ public class CameraDaoImpl implements CameraDao {
 		}
 	}
 
+	@Override
+	public List<Camera> getCamerasOfUser(User user){
+		List<Camera> cameraList = new ArrayList<Camera>();
+		
+		Connection connection = null;		
+		try {
+			connection = jndi.getConnection("jdbc/libraryDB");			
+			
+				PreparedStatement pstmt = connection.prepareStatement("select cameras.camera_id, cameras.camera from cameras, user_camera where cameras.camera_id = user_camera.camera_id and user_camera.user_id = ?;");				
+				pstmt.setLong(1, user.getId());
+				ResultSet rs = pstmt.executeQuery();
+								
+				while (rs.next()) {
+					Camera camera = new Camera();
+					camera.setId(rs.getLong("camera_id"));
+					camera.setName(rs.getString("camera"));
+					cameraList.add(camera);
+				}			
+			
+			return cameraList;
+		} catch (Exception e) {
+			throw new CameraUserConnectionNotFoundException(user.getId());
+		} finally {	
+			closeConnection(connection);
+		}
+		
+	}
+	
+	@Override
+	public void saveCamerasForUser(User user, List<Camera> cameras){
+		
+		dropCamerasForUser(user);
+		
+		Connection connection = null;		
+		try {
+			connection = jndi.getConnection("jdbc/libraryDB");			
+			
+			ListIterator<Camera> iterator = cameras.listIterator();
+			
+			// Füge die neuen Einträge für den aktuellen Nutzer ein
+			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user_camera (user_id, camera_id) VALUES (?, ?)");				
+				while (iterator.hasNext()) {
+					pstmt.setLong(1, user.getId());
+					pstmt.setLong(2, iterator.next().getId());	
+					pstmt.executeUpdate();
+				}	
+		} catch (Exception e) {
+			throw new CameraUserInsertException(user.getId());
+		} finally {	
+			closeConnection(connection);
+		}
+	}
+	
+	private void dropCamerasForUser(User user){
+		Connection connection = null;	
+		
+		try {
+			connection = jndi.getConnection("jdbc/libraryDB");	
+			PreparedStatement pstmt = connection.prepareStatement("delete from user_camera where user_camera.user_id = ?;");
+			pstmt.setLong(1, user.getId());
+			pstmt.executeQuery();
+					
+		} catch (Exception e) {
+			throw new CameraUserConnectionNotDeleted(user.getId());
+		} finally {	
+			closeConnection(connection);
+		}
+	}
+	
 	private void closeConnection(Connection connection) {
 		if (connection != null) {
 			try {
