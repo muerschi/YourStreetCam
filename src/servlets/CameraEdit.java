@@ -73,7 +73,7 @@ public class CameraEdit extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		
-		String action = request.getParameter("action");
+		//String action = request.getParameter("action");
 				
 		Long id = null;
 		
@@ -81,29 +81,29 @@ public class CameraEdit extends HttpServlet {
 			id = Long.valueOf(request.getParameter("id"));
 		}
 		
-		if(action.equals("cameraupdate")){
-			try {
-				long id1 = 2;
-				User user = userDao.get(id1);
-				Camera camera = new Camera();
-				camera.setName("Berlin");
-				camera.setPath("blubb");
-				cameraDao.save(camera);
-				List<Camera> collection = cameraDao.getCamerasOfUser(user);
-				collection.add(camera);
-				cameraDao.saveCamerasForUser(user, collection);
-				collection = cameraDao.getCamerasOfUser(user);
-				
-				request.setAttribute("cameras", collection);
-				
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/camera.jsp");
-				dispatcher.forward(request, response);
-			} catch (CameraNotDeletedException e) {
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
-				dispatcher.forward(request, response);
-			}
-		}
-		
+//		if(action.equals("cameraupdate")){
+//			try {
+//				long id1 = 2;
+//				User user = userDao.get(id1);
+//				Camera camera = new Camera();
+//				camera.setName("Berlin");
+//				camera.setPath("blubb");
+//				cameraDao.save(camera);
+//				List<Camera> collection = cameraDao.getCamerasOfUser(user);
+//				collection.add(camera);
+//				cameraDao.saveCamerasForUser(user, collection);
+//				collection = cameraDao.getCamerasOfUser(user);
+//				
+//				request.setAttribute("cameras", collection);
+//				
+//				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/camera.jsp");
+//				dispatcher.forward(request, response);
+//			} catch (CameraNotDeletedException e) {
+//				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+//				dispatcher.forward(request, response);
+//			}
+//		}
+//		
 		
 		String name = request.getParameter("name");
 		String path = request.getParameter("path");
