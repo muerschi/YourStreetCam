@@ -7,9 +7,11 @@
 <link href="design.css" rel="stylesheet">
 <title>TitlePage</title>
 </head>
-<body style="background-image:url(images/beach.jpg)">
-	<h1 style="font-family: Calibri" >Willkommen in Ihrer FotoWelt!</h1>
-	<p style="font-family: Calibri">Hier haben Sie Zugriff auf all ihre Webcams!</p>
-	<a href="login?action=login" style="font-family: Calibri" >Sign in</a>	
-</body>
+	<body style="background-image:url(images/beach.jpg)">
+		<center>
+				<h1 style="font-family: Calibri" >Willkommen in Ihrer StreetCam!</h1>
+				<p style="font-family: Calibri">Hier haben Sie Zugriff auf all ihre Webcams!</p>
+				<a href="login?action=login" style="font-family: Calibri" >Sign in</a>	
+		</center>
+	</body>
 </html>

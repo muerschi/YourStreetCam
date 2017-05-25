@@ -1,6 +1,13 @@
 package model;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.stream.Collectors;
+
+import model.Camera;
+import dao.CameraDao;
+import dao.CameraDaoImpl;
+import dao.DaoFactory;
+
 
 import model.PasswordHash;
 
@@ -9,6 +16,9 @@ public class User {
 	private Long id;
 	private String name, password;
 	private String role;
+	private String cameraAll;
+	final CameraDao cameraDao = DaoFactory.getInstance().getCameraDao();
+	
 	
     public Long getId() {
         return id;
@@ -42,7 +52,7 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+		
 	public boolean passwordIsValid(String pass) throws NoSuchAlgorithmException, InvalidKeySpecException{
 		
 		if(PasswordHash.validatePassword(pass, password)){
@@ -51,5 +61,13 @@ public class User {
 			return false;
 		}
 		
-	}	
+	}
+
+	public String getCameraAll() {
+		cameraAll = cameraDao.getCamerasOfUser(this).stream()
+				  .map(Camera::getName)
+				  .collect(Collectors.joining(",")); 
+		return this.cameraAll;
+	}
+
 }

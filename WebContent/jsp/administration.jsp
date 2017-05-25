@@ -13,7 +13,7 @@
 	  		<tr>
 	  			<td>id</td>
 	  			<td>name</td>				
-				<td>password</td>
+				<td>cameras</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
@@ -22,12 +22,12 @@
 				<tr>
 					<td><c:out value="${user.id}"/></td>					
 					<td><c:out value="${user.name}"/></td>
-					<td><c:out value="${user.password}"/></td>
+					<td><c:out value="${user.cameraAll}"/></td>
 					<td><a href="edit?action=edit&id=${user.id}">User Details</a></td>
 					<td><a href="camera?action=camera&id=${user.id}">Kameras editieren</a></td>
 					<td><a href="edit?action=delete&id=${user.id}">User löschen</a></td>
 				</tr>
-			</c:forEach>	
+			</c:forEach>
   		</tbody>
   	</table>
   	<br>

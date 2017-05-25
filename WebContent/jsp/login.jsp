@@ -4,18 +4,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="design.css" rel="stylesheet">
 <title>Insert title here</title>
 </head>
-<body>
-	<form name="login" action="login" method="post">
-		<h1>Login-Page</h1>
-		<p>Username:</p>
-		<input type="text" name="username" value="">		
-		</tr><tr>		
-		<p>Password:</p>	
-		<input type="password" name="password" value="">
-		</tr><tr>	
-		<input type="submit" name="btnLogin" value="Login">
-	</form>
+	<body style="background-image:url(images/loginBackground.jpg)">
+		<center>
+			<form name="login" action="login" method="post">
+				<h1>Login-Page</h1>
+				<p>Username:</p>
+				<input type="text" name="username" value="">		
+				</tr><tr>		
+				<p>Password:</p>	
+				<input type="password" name="password" value="">
+				</tr><tr>	
+				<p>
+					<input type="submit" name="btnLogin" value="Login">
+				</p>
+			</form>
+		</center>
 	</body>
 </html>
