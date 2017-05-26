@@ -6,6 +6,7 @@ package servlets;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,18 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.UserDao;
+import dao.CameraDao;
 import dao.DaoFactory;
 import exception.UserNotDeletedException;
 import exception.UserNotFoundException;
 import exception.UserNotSavedException;
+import model.Camera;
 import model.PasswordHash;
 import model.User;
 
 public class UserEdit extends HttpServlet {	
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	final UserDao userDao = DaoFactory.getInstance().getUserDao();
+	final CameraDao cameraDao = DaoFactory.getInstance().getCameraDao();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
@@ -38,6 +42,7 @@ public class UserEdit extends HttpServlet {
 				
 		Long id = null;
 		
+		// userDao.getbyId funktioniert nicht...
 		if (request.getParameter("id") != null) {
 			id = Long.valueOf(request.getParameter("id"));
 		}
@@ -100,6 +105,8 @@ public class UserEdit extends HttpServlet {
 		
 		try {		
 			userDao.save(user);
+			List<Camera> collection = cameraDao.list();
+			request.setAttribute("cameras", collection);
 			response.sendRedirect(request.getContextPath() + "/administration");
 		}  catch (UserNotSavedException e) {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");

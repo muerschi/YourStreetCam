@@ -57,7 +57,8 @@ public class Administration extends HttpServlet{
 		
 		List<User> collection = userDao.list();
 		request.setAttribute("users", collection);
-
+		List<Camera> collection2 = cameraDao.list();
+		request.setAttribute("cameras", collection2);
 		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/administration.jsp");
 		dispatcher.forward(request, response);

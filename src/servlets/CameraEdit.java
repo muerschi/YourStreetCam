@@ -41,18 +41,19 @@ public class CameraEdit extends HttpServlet {
 		Long id = null;
 		
 		// Vorsicht! Als Parameter wurde User oder Camera mitgegeben. Nicht eindeutig!
-		if (request.getParameter("id") != null) {
-			id = Long.valueOf(request.getParameter("id"));
-		}
+//		if (request.getParameter("id") != null) {
+//			id = Long.valueOf(request.getParameter("id"));
+//		}
 				
 		if(action.equals("add")){
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cameraadd.jsp");
 			dispatcher.forward(request, response);				
 		} else if(action.equals("camera")){
-			
+			String name = request.getParameter("id");
 			List<Camera> collection = cameraDao.list();
 			request.setAttribute("cameras", collection);
-			
+			User user = userDao.get(name);
+			request.setAttribute("user", user);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/camera.jsp");
 			dispatcher.forward(request, response);
 	}else if(action.equals("delete")) {			
@@ -61,7 +62,7 @@ public class CameraEdit extends HttpServlet {
 				cameraDao.delete(id);
 				List<Camera> collection = cameraDao.list();
 				request.setAttribute("cameras", collection);
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/camera.jsp");
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/administration.jsp");
 				dispatcher.forward(request, response);
 			} catch (CameraNotDeletedException e) {
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
@@ -115,6 +116,8 @@ public class CameraEdit extends HttpServlet {
 		
 		try {		
 			cameraDao.save(camera);
+			List<Camera> collection = cameraDao.list();
+			request.setAttribute("cameras", collection);
 			response.sendRedirect(request.getContextPath() + "/administration");
 		}  catch (UserNotSavedException e) {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");

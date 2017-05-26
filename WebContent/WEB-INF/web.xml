@@ -21,6 +21,10 @@
     <servlet-name>CameraEdit</servlet-name>
     <servlet-class>servlets.CameraEdit</servlet-class>
   </servlet>
+   <servlet>
+    <servlet-name>CameraToUser</servlet-name>
+    <servlet-class>servlets.CameraToUser</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -41,5 +45,9 @@
   <servlet-mapping>
     <servlet-name>CameraEdit</servlet-name>
     <url-pattern>/camera</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CameraToUser</servlet-name>
+    <url-pattern>/cameraToUser</url-pattern>
   </servlet-mapping>
 </web-app>

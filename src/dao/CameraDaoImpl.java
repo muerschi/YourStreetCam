@@ -97,7 +97,33 @@ public class CameraDaoImpl implements CameraDao {
 			closeConnection(connection);
 		}
 	}
-
+	@Override
+	public Camera get(String name) {
+		if (name == null)
+			throw new IllegalArgumentException("id can not be null");
+		
+		Connection connection = null;		
+		try {
+			connection = jndi.getConnection("jdbc/libraryDB");			
+			PreparedStatement pstmt = connection.prepareStatement("select camera_id, camera, pictures from cameras where camera = ?");
+			pstmt.setString(1, name);
+			ResultSet rs = pstmt.executeQuery();							
+			if (rs.next()) {
+				Camera camera = new Camera();
+				camera.setId(rs.getLong("camera_id"));
+				camera.setName(rs.getString("camera"));
+				camera.setPath(rs.getString("pictures"));
+				return camera;
+			} else {
+				//throw new UserNotFoundException(id);
+			}			
+		} catch (Exception e) {
+			//throw new UserNotFoundException(id);
+		} finally {	
+			closeConnection(connection);
+		}
+		return null;
+	}
 	@Override
 	public List<Camera> list() {
 		List<Camera> cameraList = new ArrayList<Camera>();
@@ -156,7 +182,7 @@ public class CameraDaoImpl implements CameraDao {
 	@Override
 	public void saveCamerasForUser(User user, List<Camera> cameras){
 		
-		dropCamerasForUser(user);
+		//List<Camera> oldCameras = this.getCamerasOfUser(user);
 		
 		Connection connection = null;		
 		try {
@@ -167,10 +193,12 @@ public class CameraDaoImpl implements CameraDao {
 			// Füge die neuen Einträge für den aktuellen Nutzer ein
 			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO user_camera (user_id, camera_id) VALUES (?, ?)");				
 				while (iterator.hasNext()) {
+					Camera camera = iterator.next();
+					//if(!oldCameras.contains(camera)){
 					pstmt.setLong(1, user.getId());
-					pstmt.setLong(2, iterator.next().getId());	
-					pstmt.executeUpdate();
-				}	
+					pstmt.setLong(2, camera.getId());	
+					pstmt.executeUpdate();}
+				//}	
 		} catch (Exception e) {
 			throw new CameraUserInsertException(user.getId());
 		} finally {	
@@ -178,7 +206,8 @@ public class CameraDaoImpl implements CameraDao {
 		}
 	}
 	
-	private void dropCamerasForUser(User user){
+	@Override
+	public void dropCamerasForUser(User user){
 		Connection connection = null;	
 		
 		try {
@@ -188,7 +217,7 @@ public class CameraDaoImpl implements CameraDao {
 			pstmt.executeQuery();
 					
 		} catch (Exception e) {
-			throw new CameraUserConnectionNotDeleted(user.getId());
+			//throw new CameraUserConnectionNotDeleted(user.getId());
 		} finally {	
 			closeConnection(connection);
 		}

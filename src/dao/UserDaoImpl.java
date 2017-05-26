@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao {
 		Connection connection = null;		
 		try {
 			connection = jndi.getConnection("jdbc/libraryDB");			
-			PreparedStatement pstmt = connection.prepareStatement("select user_id, user, password, role from users where user_id = ?");
+			PreparedStatement pstmt = connection.prepareStatement("select user_id, username, password, role from users where user_id = ?");
 			pstmt.setLong(1, id);
 			ResultSet rs = pstmt.executeQuery();							
 			if (rs.next()) {
